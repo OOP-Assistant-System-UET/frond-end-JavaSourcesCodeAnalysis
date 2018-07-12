@@ -1,8 +1,22 @@
-
-
 import React, { Component } from 'react';
-import './Header.css'
-import './Inputfile.css'
+import {  Route, Link } from "react-router-dom";
+import './Header.css';
+import './Inputfile.css';
+const ButtonLink=({ label, to, activeOnlyWhenExact })=>{
+    return(
+        <Route path={to} exact={activeOnlyWhenExact} children={({match})=>{
+            return(
+                <Link to={to} >
+                <button type="button" className="btn btn-outline-primary btn-lg" style={{marginTop:'30px', width:'40%', height:'60px', fontFamily: 'Open Sans'}}>
+                    {label}
+                </button>
+                </Link>
+            )
+        }}
+
+        />
+    )
+}
 class Inputfile extends Component {
     constructor(props) {
         super(props);
@@ -13,26 +27,7 @@ class Inputfile extends Component {
         this.getNF = this.getNF.bind(this);
         this.handleChange= this.handleChange.bind(this);
     }
-//         // this.state= {
-//         //     redirect: false
-//         // };
-//         // this.setRedirect= this.setRedirect.bind(this);
-//         // this.renderRedirect = this.renderRedirect.bind(this);
-//     }
-    /*handleClick(){
-        console.log(this.refs.input.value);
-    }*/
 
-    // setRedirect = () => {
-    //     this.setState({
-    //         redirect: true
-    //     })
-    // }
-    // renderRedirect = () => {
-    //     if (this.state.redirect) {
-    //         return <Redirect to = '/class_diagram'/>
-    //             }
-    //
     handleChange() {
     this.setState({ nameFile: this.refs.input.value });
 
@@ -62,9 +57,7 @@ class Inputfile extends Component {
                             Choose file<input type="file" ref="input" onChange={this.handleChange}/>
                         </span>
                     </article>
-                    <button type="button" onClick={this.onClick} className="btn btn-outline-primary btn-lg" style={{marginTop:'30px', width:'40%', height:'60px', fontFamily: 'Open Sans'}}>
-                        CONVERT TO CLASS DIAGRAM
-                    </button>
+                    <ButtonLink label="CONVERT TO CLASS DIAGRAM" to="/classdiagram" activeOnlyWhenExact={false}/>
 
                 </div>
             </center>

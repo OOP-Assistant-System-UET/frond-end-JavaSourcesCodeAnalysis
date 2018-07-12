@@ -1,19 +1,52 @@
 import * as React from 'react';
 import {Component} from 'react';
+// import async from 'react-promise';
+// import  Promise from 'react-promise';
 import * as go from 'gojs';
-
-import Nodedata from "./Nodedata";
-import Linkdata from "./Linkdata";
-import DragZoomingTool from './DragZoomingTool'
+import callApi from './../../api/ApiCaller';
+import DragZoomingTool from './DragZoomingTool';
+import './loader.css';
  const $= go.GraphObject.make;
-
 class UMLDiagram extends Component{
     constructor(props){
         super(props);
         this.renderCanvas = this.renderCanvas.bind(this);
         this.state = {myModel: null, myDiagram: null};
+        this.state = { Nodedata:[], Linkdata:[]};
     }
+
+
+    componentDidMount () {
+
+        let linkPro = new Promise((resolve, reject)=>{
+            resolve(callApi('relationships', 'GET', null));
+            return(<div className='loader'></div>);
+        });
+
+        let nodePro = new Promise((resolve, reject)=>{
+            resolve(callApi('class', 'GET', null));
+            return(<div className='loader'></div>);
+        })
+
+        Promise.all([linkPro, nodePro])
+            .then(values=>{
+            this.setState({
+                Linkdata: values[0].data,
+                Nodedata: values[1].data
+            });
+        }).then(this.renderCanvas)
+            .catch(function(err){
+            console.log(err);
+        });
+
+
+    }
+
+
     renderCanvas(){
+
+
+
         function convertVisibility(v) {
             switch (v) {
                 case "public":
@@ -139,7 +172,6 @@ class UMLDiagram extends Component{
                     return "";
             }
         }
-        let model = $(go.TreeModel);
         let diagram = $(go.Diagram, this.refs.goJsDiv,
             {
                 initialContentAlignment: go.Spot.Center,
@@ -232,8 +264,10 @@ class UMLDiagram extends Component{
                 $(go.Shape, {scale: 1.3, fill: "white"},
                     new go.Binding("toArrow", "relationship", convertToArrow))
             );
-        // var nodedata =Nodedata;
-        // var linkdata=Linkdata;
+        var Nodedata = this.state.Nodedata;
+        var Linkdata = this.state.Linkdata;
+        console.log(Nodedata);
+        console.log(Linkdata);
         diagram.currentTool = new DragZoomingTool ();
         diagram.toolManager.mouseMoveTools.insertAt(2, new DragZoomingTool());
 
@@ -251,23 +285,21 @@ class UMLDiagram extends Component{
         );
 
     }
-    componentDidMount () {
-        this.renderCanvas ();
-    }
 
-    // componentWillUpdate (prevProps) {
-    //     if (this.props.data !== prevProps.data) {
-    //         console.log ('Updating');
-    //         const model = this.state.myModel;
-    //         const diagram = this.state.myDiagram;
-    //         model.nodeDataArray = this.props.data;
-    //         model.linkDataArray = this.props.data;
-    //         diagram.model = model;
-    //         this.setState({myModel: model, myDiagram: diagram});
-    //     }
-    // }
+
+
     render () {
-        return <div ref="goJsDiv" style={{'marginTop':'100px','width': '90%', 'height': '500px', 'backgroundColor': '#DAE4E4'}}></div>;
+
+        return (
+                <div ref="goJsDiv" style={{
+                    'marginTop': '100px',
+                    'width': '90%',
+                    'height': '500px',
+                    'backgroundColor': '#DAE4E4'
+                }}></div>
+            );
+
+
     }
 }
 export default UMLDiagram;

@@ -1,4 +1,4 @@
-"use strict";
+
 import * as go from 'gojs';
 
 export default function DragZoomingTool() {
