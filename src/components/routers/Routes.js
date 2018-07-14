@@ -1,9 +1,9 @@
-import Home from './Home';
-import History from './History';
-import NotFound from './NotFound';
-import Account from './Account';
+import Home from '../home/Home';
+import History from '../home/History';
+import NotFound from '../home/NotFound';
+import Account from '../home/Account';
 import React from 'react';
-import UMLDiagram from "./classDiagram/UMLDiagram";
+import UMLDiagram from "../classDiagram/UMLDiagram";
 
 const Routes = [
     {

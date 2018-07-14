@@ -5,7 +5,7 @@ import {Component} from 'react';
 import * as go from 'gojs';
 import callApi from './../../api/ApiCaller';
 import DragZoomingTool from './DragZoomingTool';
-import './loader.css';
+import '../../css/loader.css';
  const $= go.GraphObject.make;
 class UMLDiagram extends Component{
     constructor(props){
@@ -18,29 +18,23 @@ class UMLDiagram extends Component{
 
     componentDidMount () {
 
-        let linkPro = new Promise((resolve, reject)=>{
-            resolve(callApi('relationships', 'GET', null));
-            return(<div className='loader'></div>);
-        });
+        new Promise((resolve,reject)=>{
+            resolve(callApi('classes', 'GET', null))
+            })
+                .then(values=>{
 
-        let nodePro = new Promise((resolve, reject)=>{
-            resolve(callApi('class', 'GET', null));
-            return(<div className='loader'></div>);
-        })
+                this.setState({
+                    Nodedata: values.data.classes,
+                    Linkdata: values.data.relationships
 
-        Promise.all([linkPro, nodePro])
-            .then(values=>{
-            this.setState({
-                Linkdata: values[0].data,
-                Nodedata: values[1].data
+                });
+                console.log(values);
+            }).then(this.renderCanvas)
+                .catch(function(err){
+                console.log(err);
             });
-        }).then(this.renderCanvas)
-            .catch(function(err){
-            console.log(err);
-        });
 
-
-    }
+        }
 
 
     renderCanvas(){
@@ -294,9 +288,14 @@ class UMLDiagram extends Component{
                 <div ref="goJsDiv" style={{
                     'marginTop': '100px',
                     'width': '90%',
-                    'height': '500px',
-                    'backgroundColor': '#DAE4E4'
-                }}></div>
+                    'height': '490px',
+                    'backgroundColor': '#DAE4E4',
+
+                }}>
+                    <div style={{'paddingTop':'130px'}}>
+                    <div className="loader" ></div>
+                    </div>
+                </div>
             );
 
 

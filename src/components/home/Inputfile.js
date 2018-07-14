@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {  Route, Link } from "react-router-dom";
-import './Header.css';
-import './Inputfile.css';
+import '../../css/Header.css';
+import '../../css/Inputfile.css';
 const ButtonLink=({ label, to, activeOnlyWhenExact })=>{
     return(
         <Route path={to} exact={activeOnlyWhenExact} children={({match})=>{
@@ -29,7 +29,7 @@ class Inputfile extends Component {
     }
 
     handleChange() {
-    this.setState({ nameFile: this.refs.input.value });
+    this.setState({ nameFile: this.refs.file.value });
 
     }
     onClick() {
@@ -38,9 +38,9 @@ class Inputfile extends Component {
 
     }
     getNF(){
-        console.log(this.refs.input.value);
+        console.log(this.refs.file.value);
         return(
-            <p>{this.refs.input.value}</p>
+            <p>{this.refs.file.value}</p>
         );
     }
     render() {
@@ -54,7 +54,7 @@ class Inputfile extends Component {
                         <img src="https://cdn1.iconfinder.com/data/icons/hawcons/32/698394-icon-130-cloud-upload-512.png" />
                         {this.state.nameFile}
                         <span className="button" >
-                            Choose file<input type="file" ref="input" onChange={this.handleChange}/>
+                            Choose file<input type="file" ref="file" name="file" onChange={this.handleChange}/>
                         </span>
                     </article>
                     <ButtonLink label="CONVERT TO CLASS DIAGRAM" to="/classdiagram" activeOnlyWhenExact={false}/>

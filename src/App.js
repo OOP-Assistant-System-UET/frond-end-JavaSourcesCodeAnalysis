@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Header from './components/Header';
+import Header from './components/home/Header';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
-import './App.css';
-import Routes from './components/Routes';
+import './css/App.css';
+import Routes from './components/routers/Routes';
 
 
 class App extends Component {
