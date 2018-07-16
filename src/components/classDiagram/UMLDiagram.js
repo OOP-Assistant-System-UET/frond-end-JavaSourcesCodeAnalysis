@@ -18,7 +18,6 @@ class UMLDiagram extends Component{
 
 
     componentDidMount () {
-
         new Promise((resolve,reject)=>{
             resolve(callApi('classes', 'GET', null))
             })
