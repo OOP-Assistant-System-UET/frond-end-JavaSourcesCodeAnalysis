@@ -1,6 +1,7 @@
 
 
 import React, { Component } from 'react';
+import Header from "./Header";
 
 class History extends Component {
 
@@ -9,6 +10,7 @@ class History extends Component {
         return (
 
             <center>
+                <Header/>
                 <div style={{paddingTop:'200px'}}>
                     Lich su phan tich
                 </div>

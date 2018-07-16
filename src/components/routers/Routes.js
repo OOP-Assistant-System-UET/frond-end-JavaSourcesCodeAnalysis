@@ -4,6 +4,10 @@ import NotFound from '../home/NotFound';
 import Account from '../home/Account';
 import React from 'react';
 import UMLDiagram from "../classDiagram/UMLDiagram";
+import Login from "../log_in_out/Login";
+import Logout from "../log_in_out/Logout";
+
+
 
 const Routes = [
     {
@@ -26,6 +30,17 @@ const Routes = [
         exact: false,
         main:() => <UMLDiagram/>
     },
+    {
+        path:'/login',
+        exact: false,
+        main:() => <Login/>
+    },
+    {
+        path:'/logout',
+        exact: false,
+        main:() => <Logout/>
+    },
+
     {
         path:'',
         exact: false,

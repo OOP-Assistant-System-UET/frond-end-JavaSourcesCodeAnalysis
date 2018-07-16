@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Header from './components/home/Header';
-
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import './css/App.css';
@@ -12,7 +10,7 @@ class App extends Component {
     return (
         <Router>
             <center>
-                <Header/>
+
                 <Switch>
                     {this.showContentMenu(Routes)}
                 </Switch>
@@ -21,18 +19,20 @@ class App extends Component {
         </Router>
     );
   }
+
   showContentMenu = (Routes)=> {
       var result = null;
       if(Routes.length > 0){
-          result = Routes.map((route, index)=>{
-              return (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    component={route.main}
-                  />
-              );
+          result = Routes.map((route, index)=> {
+                  return (
+                      <Route
+                          key={index}
+                          path={route.path}
+                          exact={route.exact}
+                          component={route.main}
+                      />
+                  );
+
           });
       }
       return result;

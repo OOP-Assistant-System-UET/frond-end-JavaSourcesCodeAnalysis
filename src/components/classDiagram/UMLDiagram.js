@@ -6,6 +6,7 @@ import * as go from 'gojs';
 import callApi from './../../api/ApiCaller';
 import DragZoomingTool from './DragZoomingTool';
 import '../../css/loader.css';
+import Header from "../home/Header";
  const $= go.GraphObject.make;
 class UMLDiagram extends Component{
     constructor(props){
@@ -285,19 +286,22 @@ class UMLDiagram extends Component{
     render () {
 
         return (
+            <div>
+                <Header/>
                 <div ref="goJsDiv" style={{
-                    'marginTop': '100px',
-                    'width': '90%',
-                    'height': '490px',
+                    'marginTop': '80px',
+                    'width': '95%',
+                    'height': '510px',
                     'backgroundColor': '#DAE4E4',
 
                 }}>
                     <div style={{'paddingTop':'130px'}}>
-                    <div className="loader" ></div>
+                        <div className="loader" ></div>
                     </div>
                 </div>
-            );
 
+            </div>
+        );
 
     }
 }
