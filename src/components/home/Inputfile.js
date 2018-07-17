@@ -39,7 +39,7 @@ class Inputfile extends Component {
         this.setState({selectedFile: event.target.files[0]})
     }
      uploadHandler =(e) =>{
-        e.preventDefault();// neu c muon xem no link luon sang trang kia thi xoa dong nay nha
+        // neu c muon xem no link luon sang trang kia thi xoa dong nay nha
         return new Promise((resolve , reject)=>{
             const formData = new FormData();
             formData.append('file', this.state.selectedFile, this.state.selectedFile.name);
@@ -49,6 +49,7 @@ class Inputfile extends Component {
                 }
             });
         });
+         e.preventDefault();
 
     }
 
