@@ -14,56 +14,34 @@ class UMLDiagram extends Component{
         this.renderCanvas = this.renderCanvas.bind(this);
         this.state = {myModel: null, myDiagram: null};
         this.state = { Nodedata:null, Linkdata:null};
-
+        this.state = {clearInt: false};
     }
+    getData = (getdata) => {
+        return new Promise((resolve,reject)=>{
+            resolve(callApi('classes?token=' + sessionStorage.getItem('key'), 'GET', null))
+            }).then(values=>{
+                console.log(values);
+                this.setState({
+                    Nodedata: values.data.data.classes,
+                    Linkdata: values.data.data.relationships.relationships
+                });      
+            }).then(this.renderCanvas)
+            .then(function(){
+                clearInterval(getdata);
+            })
+            .catch(function(err){
+            console.log(err);
+            });
+    }
+    
     componentDidMount () {
-         new Promise((resolve,reject)=>{
-            resolve(callApi('classes?token=' + sessionStorage.getItem('key'), 'GET', null))
-            }).then(values=>{
-                        console.log(values);
-                        this.setState({
-                            Nodedata: values.data.data.classes,
-                            Linkdata: values.data.data.relationships.relationships
-                        }); 
-                    
-                // if(){
-                //     window.location.reload(true);
-                //     // Promise.reload(true);
-                // }
-                     
-            }).then(this.renderCanvas)
-            .catch(function(err){
-            console.log(err);
-            });
-
+        let getdata=setInterval((getdata)=>this.getData(getdata), 2000);
+        // if(clearInt){
+        //     clearInterval(getdata);
+        // }
     }
-
-    componentDidUpdate(prevProps, prevState) {
-    if (this.state.Nodedata === null || this.state.Linkdata === null) {
-      new Promise((resolve,reject)=>{
-            resolve(callApi('classes?token=' + sessionStorage.getItem('key'), 'GET', null))
-            }).then(values=>{
-                        console.log(values);
-                        this.setState({
-                            Nodedata: values.data.data.classes,
-                            Linkdata: values.data.data.relationships.relationships
-                        }); 
-                    
-                // if(){
-                //     window.location.reload(true);
-                //     // Promise.reload(true);
-                // }
-                     
-            }).then(this.renderCanvas)
-            .catch(function(err){
-            console.log(err);
-            });
-    }else return null;
-  }
+    
     renderCanvas(){
-
-
-
         function convertVisibility(v) {
             switch (v) {
                 case "public":
@@ -317,9 +295,11 @@ class UMLDiagram extends Component{
                     'backgroundColor': '#DAE4E4',
 
                 }}>
-                    <div style={{'paddingTop':'130px'}}>
-                        <div className="loader" ></div>
-                    </div>
+                    <center>
+                        <div style={{'paddingTop':'130px'}}>
+                            <div className="loader" ></div>
+                        </div>
+                    </center>
                 </div>
 
             </div>
