@@ -3,7 +3,7 @@ import {  Route, Link } from "react-router-dom";
 import '../../css/Header.css';
 import '../../css/Inputfile.css';
 import Header from "./Header";
-import axios, { post } from 'axios';
+import axios from 'axios';
 import * as Config from './../../api/Config';
 import { ProgressBar } from 'react-bootstrap';
 class Inputfile extends Component {
@@ -11,7 +11,9 @@ class Inputfile extends Component {
         super(props);
         this.state={
             selectedFile: null,
-            progress : 0
+            progress : 0,
+            key:null,
+            disabled:true
         }
         this.fileChangedHandler = this.fileChangedHandler.bind(this);
         this.uploadHandler = this.uploadHandler.bind(this);
@@ -20,8 +22,10 @@ class Inputfile extends Component {
     fileChangedHandler = (event) => {
         this.setState({selectedFile: event.target.files[0]})
     }
-     uploadHandler = (e) =>{
-      //  e.preventDefault();// neu c muon xem no link luon sang trang kia thi xoa dong nay nha
+    
+    uploadHandler = (e) => {
+        const self=this;
+
       if(this.state.selectedFile != null){
             return new Promise((resolve , reject)=>{
                 const formData = new FormData();
@@ -32,9 +36,24 @@ class Inputfile extends Component {
                         console.log(percentCompleted + '%')
                         this.setState({progress: percentCompleted})
                     }
-                });
+
+
+                }).then(res=> {
+                    this.setState({
+                        key:res.data.key,
+                        disabled: false
+                    });
+                    sessionStorage.setItem('key', res.data.key);
+                    self.props.token(res.data.key); 
+                    
+                console.log(JSON.stringify(res));
             });
+                
+
+            });
+            
         }
+
     }
 
     render() {
@@ -62,6 +81,7 @@ class Inputfile extends Component {
                                 <button
                                     className="btn btn-outline-primary btn-lg"
                                     style={{marginTop:'30px', width:'40%', height:'60px', fontFamily: 'Open Sans'}}
+                                    disabled={this.state.disabled}
                                 >
                                      CONVERT TO CLASS DIAGRAM
                                 </button>

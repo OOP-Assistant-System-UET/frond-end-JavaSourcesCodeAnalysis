@@ -3,9 +3,7 @@ import '../../css/Header.css';
 import {
     BrowserRouter as Router,
     Route,
-    NavLink,
-    Redirect,
-    withRouter
+    NavLink
 } from 'react-router-dom';
 
 const HeaderLink=({ label, to , activeOnlyWhenExact })=>{

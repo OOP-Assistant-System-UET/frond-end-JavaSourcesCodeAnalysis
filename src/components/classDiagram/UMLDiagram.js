@@ -13,30 +13,53 @@ class UMLDiagram extends Component{
         super(props);
         this.renderCanvas = this.renderCanvas.bind(this);
         this.state = {myModel: null, myDiagram: null};
-        this.state = { Nodedata:[], Linkdata:[]};
+        this.state = { Nodedata:null, Linkdata:null};
+
     }
-
-
     componentDidMount () {
-        new Promise((resolve,reject)=>{
-            resolve(callApi('classes', 'GET', null))
-            })
-                .then(values=>{
-
-                this.setState({
-                    Nodedata: values.data.classes,
-                    Linkdata: values.data.relationships
-
-                });
-                console.log(values);
+         new Promise((resolve,reject)=>{
+            resolve(callApi('classes?token=' + sessionStorage.getItem('key'), 'GET', null))
+            }).then(values=>{
+                        console.log(values);
+                        this.setState({
+                            Nodedata: values.data.data.classes,
+                            Linkdata: values.data.data.relationships.relationships
+                        }); 
+                    
+                // if(){
+                //     window.location.reload(true);
+                //     // Promise.reload(true);
+                // }
+                     
             }).then(this.renderCanvas)
-                .catch(function(err){
-                console.log(err);
+            .catch(function(err){
+            console.log(err);
             });
 
-        }
+    }
 
-
+    componentDidUpdate(prevProps, prevState) {
+    if (this.state.Nodedata === null || this.state.Linkdata === null) {
+      new Promise((resolve,reject)=>{
+            resolve(callApi('classes?token=' + sessionStorage.getItem('key'), 'GET', null))
+            }).then(values=>{
+                        console.log(values);
+                        this.setState({
+                            Nodedata: values.data.data.classes,
+                            Linkdata: values.data.data.relationships.relationships
+                        }); 
+                    
+                // if(){
+                //     window.location.reload(true);
+                //     // Promise.reload(true);
+                // }
+                     
+            }).then(this.renderCanvas)
+            .catch(function(err){
+            console.log(err);
+            });
+    }else return null;
+  }
     renderCanvas(){
 
 

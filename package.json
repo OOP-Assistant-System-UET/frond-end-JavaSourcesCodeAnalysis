@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "gojs": "^1.8.23",
+    "history": "^4.7.2",
     "rc-progress": "^2.2.5",
     "react": "^16.4.1",
     "react-bootstrap": "^0.32.1",
@@ -17,7 +18,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-upload-file": "^2.0.0-beta.6",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "set port=4000 && react-scripts start",

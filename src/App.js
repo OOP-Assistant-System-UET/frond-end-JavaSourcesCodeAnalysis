@@ -2,41 +2,29 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import './css/App.css';
-import Routes from './components/routers/Routes';
 
-
+import Home from './components/home/Home';
+import UMLDiagram from './components/classDiagram/UMLDiagram';
 class App extends Component {
-  render() {
-    return (
-        <Router>
-            <center>
-
-                <Switch>
-                    {this.showContentMenu(Routes)}
-                </Switch>
-                <br></br>
-            </center>
-        </Router>
-    );
+  state={token: null};
+  token=(e)=>{
+    this.setState({
+        token:e
+    });
   }
+  render() {
 
-  showContentMenu = (Routes)=> {
-      var result = null;
-      if(Routes.length > 0){
-          result = Routes.map((route, index)=> {
-                  return (
-                      <Route
-                          key={index}
-                          path={route.path}
-                          exact={route.exact}
-                          component={route.main}
-                      />
-                  );
-
-          });
-      }
-      return result;
+    return (
+          <Router>
+            <div>
+              <Switch>
+                <Route path='/' exact render={()=><Home token={this.token}/>}/>
+                <Route path='/classdiagram' render={()=><UMLDiagram token={this.state.token}/>}/>
+              </Switch>
+            </div>
+          </Router>
+    );
+          
   }
 }
-
 export default App;
