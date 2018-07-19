@@ -23,19 +23,25 @@ class UMLDiagram extends Component{
                 console.log(values);
                 this.setState({
                     Nodedata: values.data.data.classes,
-                    Linkdata: values.data.data.relationships.relationships
-                });      
+                    Linkdata: values.data.data.relationships.relationships,
+
+                });
+                if(values.data.data !== null){
+                    clearInterval(getdata);
+                }
             }).then(this.renderCanvas)
-            .then(function(){
-                clearInterval(getdata);
-            })
+            
             .catch(function(err){
             console.log(err);
             });
     }
-    
+
     componentDidMount () {
-        let getdata=setInterval((getdata)=>this.getData(getdata), 2000);
+        const getdata=setInterval(this.getData(), 2000);
+        if(this.state.Nodedata !== null && this.state.Linkdata!== null){
+            clearInterval(getdata);
+        }
+
         // if(clearInt){
         //     clearInterval(getdata);
         // }
